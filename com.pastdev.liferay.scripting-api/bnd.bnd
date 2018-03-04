@@ -1,0 +1,9 @@
+Bundle-Name: com.pastdev.liferay.scripting-api
+Bundle-SymbolicName: com.pastdev.liferay.scripting.api
+Bundle-Version: 1.0-SNAPSHOT
+Export-Package:\
+	com.pastdev.liferay.scripting.exception,\
+	com.pastdev.liferay.scripting.model,\
+	com.pastdev.liferay.scripting.service,\
+	com.pastdev.liferay.scripting.service.persistence
+-includeresource: META-INF/service.xml=../com.pastdev.liferay.scripting-service/service.xml
