@@ -215,3 +215,6 @@ curl http://localhost:8080/api/jsonws/pastdev_scripting.scriptingexecutor/status
   -u admin@liferay.com:admin \
   -d backgroundTaskId="$BACKGROUND_TASK_ID"
 ```
+
+# Feature Request
+Submitted as a feature request: https://issues.liferay.com/browse/LPS-78458
