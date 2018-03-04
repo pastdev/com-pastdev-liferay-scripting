@@ -87,6 +87,18 @@
           <sqlFileName>tables.sql</sqlFileName>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Liferay-Require-SchemaVersion>1.0.0</Liferay-Require-SchemaVersion>
+            <Liferay-Service>true</Liferay-Service>
+            <_plugin.service>com.liferay.ant.bnd.service.ServiceAnalyzerPlugin</_plugin.service>
+            <_plugin.spring>com.liferay.ant.bnd.spring.SpringDependencyAnalyzerPlugin</_plugin.spring>
+          </instructions>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>

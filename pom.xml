@@ -20,6 +20,39 @@
 
   <build>
     <finalName>${project.artifactId}</finalName>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>3.3.0</version>
+          <extensions>true</extensions>
+          <executions>
+            <execution>
+              <id>bundle-manifest</id>
+              <phase>process-classes</phase>
+              <goals>
+                <goal>manifest</goal>
+              </goals>
+            </execution>
+          </executions>
+          <dependencies>
+            <dependency>
+              <groupId>biz.aQute.bnd</groupId>
+              <artifactId>biz.aQute.bndlib</artifactId>
+              <version>3.2.0</version>
+            </dependency>
+            <dependency>
+              <groupId>com.liferay</groupId>
+              <artifactId>com.liferay.ant.bnd</artifactId>
+              <version>2.0.41</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -39,30 +72,6 @@
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>biz.aQute.bnd</groupId>
-        <artifactId>bnd-maven-plugin</artifactId>
-        <version>3.3.0</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>bnd-process</goal>
-            </goals>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>biz.aQute.bnd</groupId>
-            <artifactId>biz.aQute.bndlib</artifactId>
-            <version>3.2.0</version>
-          </dependency>
-          <dependency>
-            <groupId>com.liferay</groupId>
-            <artifactId>com.liferay.ant.bnd</artifactId>
-            <version>2.0.41</version>
-          </dependency>
-        </dependencies>
       </plugin>
     </plugins>
   </build>
