@@ -85,6 +85,23 @@ public class ScriptingExecutorServiceSoap {
 		}
 	}
 
+	public static com.liferay.portal.kernel.backgroundtask.BackgroundTask spawn(
+		java.lang.String name, java.util.List<java.lang.String> outputNames,
+		java.lang.String language, java.lang.String script)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.backgroundtask.BackgroundTask returnValue = ScriptingExecutorServiceUtil.spawn(name,
+					outputNames, language, script);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static com.pastdev.liferay.scripting.service.SpawnedTaskStatus status(
 		int backgroundTaskId) throws RemoteException {
 		try {

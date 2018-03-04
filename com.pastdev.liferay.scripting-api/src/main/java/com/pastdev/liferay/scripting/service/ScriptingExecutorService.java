@@ -54,12 +54,6 @@ public interface ScriptingExecutorService extends BaseService {
 	 * Never modify or reference this interface directly. Always use {@link ScriptingExecutorServiceUtil} to access the scripting executor remote service. Add custom service methods to {@link com.pastdev.liferay.scripting.service.impl.ScriptingExecutorServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	public Map<java.lang.String, java.lang.Object> eval(
-		List<java.lang.String> allowedClasses,
-		Map<java.lang.String, java.lang.Object> input,
-		List<java.lang.String> outputNames, java.lang.String language,
-		java.lang.String script) throws PortalException, SystemException;
-
-	public Map<java.lang.String, java.lang.Object> eval(
 		List<java.lang.String> outputNames, java.lang.String language,
 		java.lang.String script) throws PortalException, SystemException;
 
@@ -68,7 +62,7 @@ public interface ScriptingExecutorService extends BaseService {
 		List<java.lang.String> outputNames, java.lang.String language,
 		java.lang.String script) throws PortalException, SystemException;
 
-	public Map<java.lang.String, java.lang.Object> eval(
+	public java.lang.String eval(
 		Map<java.lang.String, java.lang.Object> input,
 		java.lang.String language, java.lang.String script)
 		throws PortalException, SystemException;
@@ -84,9 +78,18 @@ public interface ScriptingExecutorService extends BaseService {
 	public java.lang.String getOSGiServiceIdentifier();
 
 	public BackgroundTask spawn(java.lang.String name,
+		List<java.lang.String> outputNames, java.lang.String language,
+		java.lang.String script) throws PortalException, SystemException;
+
+	public BackgroundTask spawn(java.lang.String name,
 		Map<java.lang.String, java.lang.Object> input,
 		List<java.lang.String> outputNames, java.lang.String language,
 		java.lang.String script) throws PortalException, SystemException;
+
+	public BackgroundTask spawn(java.lang.String name,
+		Map<java.lang.String, java.lang.Object> input,
+		java.lang.String language, java.lang.String script)
+		throws PortalException, SystemException;
 
 	public BackgroundTask spawn(java.lang.String name,
 		java.lang.String language, java.lang.String script)

@@ -35,18 +35,6 @@ public class ScriptingExecutorServiceWrapper implements ScriptingExecutorService
 
 	@Override
 	public java.util.Map<java.lang.String, java.lang.Object> eval(
-		java.util.List<java.lang.String> allowedClasses,
-		java.util.Map<java.lang.String, java.lang.Object> input,
-		java.util.List<java.lang.String> outputNames,
-		java.lang.String language, java.lang.String script)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return _scriptingExecutorService.eval(allowedClasses, input,
-			outputNames, language, script);
-	}
-
-	@Override
-	public java.util.Map<java.lang.String, java.lang.Object> eval(
 		java.util.List<java.lang.String> outputNames,
 		java.lang.String language, java.lang.String script)
 		throws com.liferay.portal.kernel.exception.PortalException,
@@ -66,7 +54,7 @@ public class ScriptingExecutorServiceWrapper implements ScriptingExecutorService
 	}
 
 	@Override
-	public java.util.Map<java.lang.String, java.lang.Object> eval(
+	public java.lang.String eval(
 		java.util.Map<java.lang.String, java.lang.Object> input,
 		java.lang.String language, java.lang.String script)
 		throws com.liferay.portal.kernel.exception.PortalException,
@@ -94,6 +82,16 @@ public class ScriptingExecutorServiceWrapper implements ScriptingExecutorService
 
 	@Override
 	public com.liferay.portal.kernel.backgroundtask.BackgroundTask spawn(
+		java.lang.String name, java.util.List<java.lang.String> outputNames,
+		java.lang.String language, java.lang.String script)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _scriptingExecutorService.spawn(name, outputNames, language,
+			script);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.backgroundtask.BackgroundTask spawn(
 		java.lang.String name,
 		java.util.Map<java.lang.String, java.lang.Object> input,
 		java.util.List<java.lang.String> outputNames,
@@ -102,6 +100,16 @@ public class ScriptingExecutorServiceWrapper implements ScriptingExecutorService
 			com.liferay.portal.kernel.exception.SystemException {
 		return _scriptingExecutorService.spawn(name, input, outputNames,
 			language, script);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.backgroundtask.BackgroundTask spawn(
+		java.lang.String name,
+		java.util.Map<java.lang.String, java.lang.Object> input,
+		java.lang.String language, java.lang.String script)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _scriptingExecutorService.spawn(name, input, language, script);
 	}
 
 	@Override

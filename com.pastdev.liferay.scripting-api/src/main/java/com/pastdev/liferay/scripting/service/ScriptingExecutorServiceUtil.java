@@ -42,17 +42,6 @@ public class ScriptingExecutorServiceUtil {
 	 * Never modify this class directly. Add custom service methods to {@link com.pastdev.liferay.scripting.service.impl.ScriptingExecutorServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static java.util.Map<java.lang.String, java.lang.Object> eval(
-		java.util.List<java.lang.String> allowedClasses,
-		java.util.Map<java.lang.String, java.lang.Object> input,
-		java.util.List<java.lang.String> outputNames,
-		java.lang.String language, java.lang.String script)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService()
-				   .eval(allowedClasses, input, outputNames, language, script);
-	}
-
-	public static java.util.Map<java.lang.String, java.lang.Object> eval(
 		java.util.List<java.lang.String> outputNames,
 		java.lang.String language, java.lang.String script)
 		throws com.liferay.portal.kernel.exception.PortalException,
@@ -69,7 +58,7 @@ public class ScriptingExecutorServiceUtil {
 		return getService().eval(input, outputNames, language, script);
 	}
 
-	public static java.util.Map<java.lang.String, java.lang.Object> eval(
+	public static java.lang.String eval(
 		java.util.Map<java.lang.String, java.lang.Object> input,
 		java.lang.String language, java.lang.String script)
 		throws com.liferay.portal.kernel.exception.PortalException,
@@ -94,6 +83,14 @@ public class ScriptingExecutorServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.backgroundtask.BackgroundTask spawn(
+		java.lang.String name, java.util.List<java.lang.String> outputNames,
+		java.lang.String language, java.lang.String script)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().spawn(name, outputNames, language, script);
+	}
+
+	public static com.liferay.portal.kernel.backgroundtask.BackgroundTask spawn(
 		java.lang.String name,
 		java.util.Map<java.lang.String, java.lang.Object> input,
 		java.util.List<java.lang.String> outputNames,
@@ -101,6 +98,15 @@ public class ScriptingExecutorServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		return getService().spawn(name, input, outputNames, language, script);
+	}
+
+	public static com.liferay.portal.kernel.backgroundtask.BackgroundTask spawn(
+		java.lang.String name,
+		java.util.Map<java.lang.String, java.lang.Object> input,
+		java.lang.String language, java.lang.String script)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().spawn(name, input, language, script);
 	}
 
 	public static com.liferay.portal.kernel.backgroundtask.BackgroundTask spawn(

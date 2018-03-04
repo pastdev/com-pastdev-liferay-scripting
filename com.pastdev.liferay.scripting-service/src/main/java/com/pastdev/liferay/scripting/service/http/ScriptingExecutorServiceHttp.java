@@ -92,8 +92,7 @@ public class ScriptingExecutorServiceHttp {
 		}
 	}
 
-	public static java.util.Map<java.lang.String, java.lang.Object> eval(
-		HttpPrincipal httpPrincipal,
+	public static java.lang.String eval(HttpPrincipal httpPrincipal,
 		java.util.Map<java.lang.String, java.lang.Object> input,
 		java.lang.String language, java.lang.String script)
 		throws com.liferay.portal.kernel.exception.PortalException,
@@ -122,7 +121,7 @@ public class ScriptingExecutorServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (java.util.Map<java.lang.String, java.lang.Object>)returnObj;
+			return (java.lang.String)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -210,20 +209,17 @@ public class ScriptingExecutorServiceHttp {
 		}
 	}
 
-	public static java.util.Map<java.lang.String, java.lang.Object> eval(
-		HttpPrincipal httpPrincipal,
-		java.util.List<java.lang.String> allowedClasses,
-		java.util.Map<java.lang.String, java.lang.Object> input,
-		java.util.List<java.lang.String> outputNames,
+	public static com.liferay.portal.kernel.backgroundtask.BackgroundTask spawn(
+		HttpPrincipal httpPrincipal, java.lang.String name,
 		java.lang.String language, java.lang.String script)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		try {
 			MethodKey methodKey = new MethodKey(ScriptingExecutorServiceUtil.class,
-					"eval", _evalParameterTypes4);
+					"spawn", _spawnParameterTypes5);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					allowedClasses, input, outputNames, language, script);
+			MethodHandler methodHandler = new MethodHandler(methodKey, name,
+					language, script);
 
 			Object returnObj = null;
 
@@ -242,7 +238,7 @@ public class ScriptingExecutorServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (java.util.Map<java.lang.String, java.lang.Object>)returnObj;
+			return (com.liferay.portal.kernel.backgroundtask.BackgroundTask)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -253,6 +249,7 @@ public class ScriptingExecutorServiceHttp {
 
 	public static com.liferay.portal.kernel.backgroundtask.BackgroundTask spawn(
 		HttpPrincipal httpPrincipal, java.lang.String name,
+		java.util.List<java.lang.String> outputNames,
 		java.lang.String language, java.lang.String script)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
@@ -261,7 +258,46 @@ public class ScriptingExecutorServiceHttp {
 					"spawn", _spawnParameterTypes6);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, name,
-					language, script);
+					outputNames, language, script);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
+					throw (com.liferay.portal.kernel.exception.SystemException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.backgroundtask.BackgroundTask)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.backgroundtask.BackgroundTask spawn(
+		HttpPrincipal httpPrincipal, java.lang.String name,
+		java.util.Map<java.lang.String, java.lang.Object> input,
+		java.lang.String language, java.lang.String script)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		try {
+			MethodKey methodKey = new MethodKey(ScriptingExecutorServiceUtil.class,
+					"spawn", _spawnParameterTypes7);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, name,
+					input, language, script);
 
 			Object returnObj = null;
 
@@ -298,7 +334,7 @@ public class ScriptingExecutorServiceHttp {
 			com.liferay.portal.kernel.exception.SystemException {
 		try {
 			MethodKey methodKey = new MethodKey(ScriptingExecutorServiceUtil.class,
-					"spawn", _spawnParameterTypes7);
+					"spawn", _spawnParameterTypes8);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, name,
 					input, outputNames, language, script);
@@ -335,7 +371,7 @@ public class ScriptingExecutorServiceHttp {
 			com.liferay.portal.kernel.exception.SystemException {
 		try {
 			MethodKey methodKey = new MethodKey(ScriptingExecutorServiceUtil.class,
-					"status", _statusParameterTypes8);
+					"status", _statusParameterTypes9);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					backgroundTaskId);
@@ -380,19 +416,23 @@ public class ScriptingExecutorServiceHttp {
 			java.util.Map.class, java.util.List.class, java.lang.String.class,
 			java.lang.String.class
 		};
-	private static final Class<?>[] _evalParameterTypes4 = new Class[] {
-			java.util.List.class, java.util.Map.class, java.util.List.class,
-			java.lang.String.class, java.lang.String.class
-		};
-	private static final Class<?>[] _spawnParameterTypes6 = new Class[] {
+	private static final Class<?>[] _spawnParameterTypes5 = new Class[] {
 			java.lang.String.class, java.lang.String.class,
 			java.lang.String.class
 		};
+	private static final Class<?>[] _spawnParameterTypes6 = new Class[] {
+			java.lang.String.class, java.util.List.class, java.lang.String.class,
+			java.lang.String.class
+		};
 	private static final Class<?>[] _spawnParameterTypes7 = new Class[] {
+			java.lang.String.class, java.util.Map.class, java.lang.String.class,
+			java.lang.String.class
+		};
+	private static final Class<?>[] _spawnParameterTypes8 = new Class[] {
 			java.lang.String.class, java.util.Map.class, java.util.List.class,
 			java.lang.String.class, java.lang.String.class
 		};
-	private static final Class<?>[] _statusParameterTypes8 = new Class[] {
+	private static final Class<?>[] _statusParameterTypes9 = new Class[] {
 			int.class
 		};
 }

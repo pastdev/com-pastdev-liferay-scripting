@@ -80,36 +80,32 @@ public class ScriptingExecutorServiceImpl
     @Override
     public String eval( String language, String script )
             throws PortalException, SystemException {
-        StringWriter out = new StringWriter();
-        Map<String, Object> input = new HashMap<String, Object>();
-        input.put( KEY_BINDING_LOGGER, logger );
-        input.put( KEY_BINDING_OUT, out );
-        eval( input, Collections.emptyList(), language, script );
-        return out.toString();
+        return eval( (Map<String, Object>)null, language, script );
     }
 
     @Override
-    public Map<String, Object> eval( Map<String, Object> input, String language, String script )
+    public String eval( Map<String, Object> input, String language, String script )
             throws PortalException, SystemException {
-        return eval( null, input, null, language, script );
+        StringWriter out = new StringWriter();
+        if ( input == null ) {
+            input = new HashMap<String, Object>();
+        }
+        if ( ! input.containsKey( KEY_BINDING_OUT ) ) {
+            input.put( KEY_BINDING_OUT, out );
+        }
+        eval( input, null, language, script );
+        return out.toString();
     }
 
     @Override
     public Map<String, Object> eval( List<String> outputNames, String language, String script )
             throws PortalException, SystemException {
-        return eval( null, null, outputNames, language, script );
+        return eval( null, outputNames, language, script );
     }
 
     @Override
     public Map<String, Object> eval( Map<String, Object> input, List<String> outputNames,
             String language, String script )
-            throws PortalException, SystemException {
-        return eval( null, input, outputNames, language, script );
-    }
-
-    @Override
-    public Map<String, Object> eval( List<String> allowedClasses, Map<String, Object> input,
-            List<String> outputNames, String language, String script )
             throws PortalException, SystemException {
         if ( !getPermissionChecker().isOmniadmin() ) {
             throw new PrincipalException( getUser().getEmailAddress()
@@ -149,6 +145,20 @@ public class ScriptingExecutorServiceImpl
     public BackgroundTask spawn( String name, String language, String script )
             throws PortalException, SystemException {
         return spawn( name, null, null, language, script );
+    }
+
+    @Override
+    public BackgroundTask spawn( String name, List<String> outputNames,
+            String language, String script )
+            throws PortalException, SystemException {
+        return spawn( name, null, outputNames, language, script );
+    }
+
+    @Override
+    public BackgroundTask spawn( String name, Map<String, Object> input,
+            String language, String script )
+            throws PortalException, SystemException {
+        return spawn( name, input, null, language, script );
     }
 
     @Override
