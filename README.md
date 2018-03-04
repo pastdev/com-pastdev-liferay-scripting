@@ -18,13 +18,13 @@ allowed classes.  The exact API can be inspected using the
 This plugin is powerful.  It allows full access to all Liferay API's from
 inside the running instance.  As such, it will only be allowed for users
 who are members of the _Administrators_ group (checked by
-[`getPermissionChecker().isOmniadmin()`](https://docs.liferay.com/portal/7.0/javadocs/portal-kernel/)).
+[`getPermissionChecker().isOmniadmin()`](https://docs.liferay.com/portal/7.0/javadocs/portal-kernel/com/liferay/portal/kernel/security/permission/PermissionChecker.html#isOmniadmin--)).
 
 ## `eval`
 All scripts will have the following merged with their `input`:
 
 * *`meta`:* A map containing the following request metadata:
-  * *`user`:* The [`User`](https://docs.liferay.com/portal/7.0/javadocs/portal-kernel/) who submitted the request
+  * *`user`:* The [`User`](https://docs.liferay.com/portal/7.0/javadocs/portal-kernel/com/liferay/portal/kernel/model/User.html) who submitted the request
 * *`logger`:* An instance of an slf4j [`Logger`](https://www.slf4j.org/apidocs/index.html)
 * *`progressMonitor`:* An instance of [`ProgressMonitor`](https://github.com/pastdev/com-pastdev-liferay-scripting/blob/master/com.pastdev.liferay.scripting-service/src/main/java/com/pastdev/liferay/scripting/service/impl/ProgressMonitor.java)
 
