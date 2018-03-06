@@ -26,8 +26,9 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.5.0</version>
           <extensions>true</extensions>
+          <!-- 
           <executions>
             <execution>
               <id>bundle-manifest</id>
@@ -37,6 +38,7 @@
               </goals>
             </execution>
           </executions>
+          -->
           <dependencies>
             <dependency>
               <groupId>biz.aQute.bnd</groupId>

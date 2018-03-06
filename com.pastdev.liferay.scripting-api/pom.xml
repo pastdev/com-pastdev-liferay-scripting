@@ -11,6 +11,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>com.pastdev.liferay.scripting-api</artifactId>
+  <packaging>bundle</packaging>
 
   <dependencies>
     <dependency>
@@ -52,7 +53,10 @@
         <configuration>
           <instructions>
             <Export-Package>com.pastdev.liferay.scripting.service</Export-Package>
-            <Include-Resource>META-INF/service.xml=../com.pastdev.liferay.scripting-service/service.xml</Include-Resource>
+            <Include-Resource>
+              {maven-resources},
+              META-INF/service.xml=../com.pastdev.liferay.scripting-service/service.xml,
+            </Include-Resource>
           </instructions>
         </configuration>
       </plugin>

@@ -11,6 +11,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>com.pastdev.liferay.scripting-service</artifactId>
+  <packaging>bundle</packaging>
 
   <dependencies>
     <dependency>
@@ -92,6 +93,8 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <configuration>
           <instructions>
+            <Export-Package></Export-Package>
+            <Private-Package>com.pastdev.liferay.scripting.service*</Private-Package>
             <Liferay-Require-SchemaVersion>1.0.0</Liferay-Require-SchemaVersion>
             <Liferay-Service>true</Liferay-Service>
             <_plugin.service>com.liferay.ant.bnd.service.ServiceAnalyzerPlugin</_plugin.service>
