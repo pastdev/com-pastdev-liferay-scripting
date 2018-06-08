@@ -4,7 +4,7 @@ env:
 - RELEASE_VERSION=$(mvn org.codehaus.mojo:exec-maven-plugin:1.3.1:exec -q -Dexec.executable='echo' -Dexec.args="\${project.version}" --non-recursive -Drevision=".$TRAVIS_BUILD_NUMBER" -B)
 
 install:
-- echo "Building [$RELASE_VERSION]"
+- echo "Building [$TRAVIS_BUILD_NUMBER]"
 - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -V -Drevision=$TRAVIS_BUILD_NUMBER -B
 
 script:
