@@ -218,3 +218,15 @@ curl http://localhost:8080/api/jsonws/pastdev_scripting.scriptingexecutor/status
 
 # Feature Request
 Submitted as a feature request: https://issues.liferay.com/browse/LPS-78458
+
+# Travis CI
+Approach inspired by [this article](http://www.debonair.io/post/maven-cd/)
+
+## Installing travis cli
+On my poor little centos6 server, the ruby version is not high enough.  Found [this article](https://github.com/travis-ci/travis-ci/issues/2055) which lead to this solution:
+```
+curl -sSL https://get.rvm.io | bash -s stable --ruby
+source /Users/matt/.rvm/scripts/rvm
+gem install travis
+```
+
