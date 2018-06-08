@@ -8,6 +8,10 @@
   <artifactId>com.pastdev.liferay.scripting</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
+  
+  <name>Liferay Scripting JSONWS</name>
+  <description>Provides access to the scripting framework from a jsonws endpoint</description>
+  <url>https://github.com/pastdev/com-pastdev-liferay-scripting</url>
 
   <licenses>
     <license>
