@@ -1,8 +1,7 @@
 language: java
 
-env:
-#- RELEASE_VERSION=$(mvn org.codehaus.mojo:exec-maven-plugin:1.3.1:exec -q -Dexec.executable='echo' -Dexec.args="\${project.version}" --non-recursive -Drevision=".$TRAVIS_BUILD_NUMBER" -B)
-- RELEASE_VERSION=$(echo FOObar)
+before_install:
+- export RELEASE_VERSION=$(mvn org.codehaus.mojo:exec-maven-plugin:1.3.1:exec -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive -Drevision=".$TRAVIS_BUILD_NUMBER" -B)
 
 install:
 - echo "Building [$RELEASE_VERSION]"
