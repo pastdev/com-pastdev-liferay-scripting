@@ -19,3 +19,6 @@
 /*/target
 /*/pom.xml.releaseBackup
 /*/release.properties
+
+# Travis
+/testtravis.sh
