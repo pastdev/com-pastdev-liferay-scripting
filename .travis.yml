@@ -1,10 +1,11 @@
 language: java
 
 env:
-- RELEASE_VERSION=$(mvn org.codehaus.mojo:exec-maven-plugin:1.3.1:exec -q -Dexec.executable='echo' -Dexec.args="\${project.version}" --non-recursive -Drevision=".$TRAVIS_BUILD_NUMBER" -B)
+#- RELEASE_VERSION=$(mvn org.codehaus.mojo:exec-maven-plugin:1.3.1:exec -q -Dexec.executable='echo' -Dexec.args="\${project.version}" --non-recursive -Drevision=".$TRAVIS_BUILD_NUMBER" -B)
+- RELEASE_VERSION="FOO"
 
 install:
-- echo "Building [$TRAVIS_BUILD_NUMBER]"
+- echo "Building [$RELEASE_VERSION]"
 - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -V -Drevision=$TRAVIS_BUILD_NUMBER -B
 
 script:
