@@ -1,21 +1,22 @@
 language: java
 
 before_install:
-- export RELEASE_VERSION=$(mvn org.codehaus.mojo:exec-maven-plugin:1.3.1:exec -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive -Drevision=".$TRAVIS_BUILD_NUMBER" -B)
+- export RELEASE_REVISION=".$TRAVIS_BUILD_NUMBER"
+- export RELEASE_VERSION=$(mvn org.codehaus.mojo:exec-maven-plugin:1.3.1:exec -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive -Drevision="$RELEASE_REVISION" -B)
 
 install:
 - echo "Building [$RELEASE_VERSION]"
-- mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -V -Drevision=$TRAVIS_BUILD_NUMBER -B
+- mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -V -Drevision="$RELEASE_REVISION" -B
 
 script:
-- echo "Testing [$RELASE_VERSION]"
-- mvn test -Drevision=$TRAVIS_BUILD_NUMBER -B
+- echo "Testing [$RELEASE_VERSION]"
+- mvn test -Drevision="$RELEASE_REVISION" -B
 
 before_deploy:
-- echo "Releasing [$RELASE_VERSION]"
+- echo "Releasing [$RELEASE_VERSION]"
 - openssl aes-256-cbc -K $encrypted_8d05669b0f5a_key -iv $encrypted_8d05669b0f5a_iv -in .travis.codesigning.asc.enc -out .travis.codesigning.asc -d
 - gpg --fast-import .travis.codesigning.asc
-- mvn deploy -P release -DskipTests=true --settings .travis.settings.xml -Drevision=$TRAVIS_BUILD_NUMBER -B
+- mvn deploy -P release -DskipTests=true --settings .travis.settings.xml -Drevision="$RELEASE_REVISION" -B
 - git config --local user.name "Lucas Theisen"
 - git config --local user.email "lucastheisen@pastdev.com"
 - git tag -a -m "v$RELEASE_VERSION" $RELEASE_VERSION
