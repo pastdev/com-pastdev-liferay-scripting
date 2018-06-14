@@ -16,7 +16,7 @@ before_deploy:
 - echo "Releasing [$RELEASE_VERSION]"
 - openssl aes-256-cbc -K $encrypted_8d05669b0f5a_key -iv $encrypted_8d05669b0f5a_iv -in .travis.codesigning.asc.enc -out .travis.codesigning.asc -d
 - gpg --fast-import .travis.codesigning.asc
-- mvn deploy -P release -DskipTests=true --settings .travis.settings.xml -Drevision="$RELEASE_REVISION" -B
+- travis_wait mvn deploy -P release -DskipTests=true --settings .travis.settings.xml -Drevision="$RELEASE_REVISION" -B
 - git config --local user.name "Lucas Theisen"
 - git config --local user.email "lucastheisen@pastdev.com"
 - git tag -a -m "v$RELEASE_VERSION" $RELEASE_VERSION
