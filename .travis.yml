@@ -29,6 +29,7 @@ deploy:
     branch: master
     tags: false
 
+# In order:
 # travis encrypt MAVEN_REPO_PASSWORD=\"REDACTED\"
 # travis encrypt MAVEN_REPO_USERNAME=\"REDACTED\"
 # travis encrypt MAVEN_GPG_KEYNAME=\"REDACTED\"
