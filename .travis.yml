@@ -8,24 +8,27 @@ install:
 script:
 - mvn test -B
 
-  #before_deploy:
-  #- export RELEASE_REVISION=".$TRAVIS_BUILD_NUMBER"
-  #- export RELEASE_VERSION=$(mvn org.codehaus.mojo:exec-maven-plugin:1.3.1:exec -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive -B | sed -e "s/-SNAPSHOT/$RELEASE_REVISION/")
-  #- echo "Releasing [$RELEASE_VERSION]"
-  #- openssl aes-256-cbc -K $encrypted_8d05669b0f5a_key -iv $encrypted_8d05669b0f5a_iv -in .travis.codesigning.asc.enc -out .travis.codesigning.asc -d
-  #- gpg --fast-import .travis.codesigning.asc
-  #- travis_wait mvn deploy -P release -DskipTests=true --settings .travis.settings.xml -Drevision="$RELEASE_REVISION" -B
-  #- git config --local user.name "Lucas Theisen"
-  #- git config --local user.email "lucastheisen@pastdev.com"
-  #- git tag -a -m "v$RELEASE_VERSION" $RELEASE_VERSION
-  #
-  #deploy:
-  #  provider: releases
-  #  api_key:
-  #    secure: "AwXte78wm1wYJ2i8kUDGl7g+xy5s2xx19Xp4O7skRUJ1S272nEuAY8fpoeJZRScYeNRISjnfWeCZORtVlQaALjwBmJtI0QJSyRloIAYAD6Uvhr1/xgL67ICOkTikLJNWF1wnoGfoazQr+peFRb4z8YfgAsw3RcR0I70QiS6yZOrgqTBaRRupavA57Be2RALkU1Mp5z25dE2LPJMAvlFBiNO8LRO5zZ+8eibhLPiEybh9H5kuLOhgbHj9NpujCXaPmRy4T7EzMiTWAE0E1I27u8KbjW0sZijbBEWe0AWfLKy8Tv0RaZp0lmPa45MPemqvpjfUP0xqgSOzR6yIjvXcVBhoIOCTLLvsVPMdGNp+hkIk2WK83xnAcjMygDG5rSVMhXGt22IbcppCORyAIc3ncQo0oUgrB5bmSODVEWhBUO2D7OTFPOLjI7RUxSX0ITh0tV3CxUaRt9EjK4iUbgnAuHxMBJtL80yCzMFPeyom5md/8hXcMhf1JgGvRAMUyyeOKy+m4ppPPcLGCjlzQNNNB4sidyL11uM12TtUPfh3U8xjx0VOXJDvQ9czlo0zZuzoLdTAaZYc/PT3krJxve7NGmvyDmUpp/dZ8PlwOP0g6cm6qPEq3kcAjO/XsP0M6zZaaM7b3d9aDdrE8hZ1r8iLjS57jqsMaZSPsg54yRNJhNM="
-  #  on:
-  #    branch: master
-  #    tags: false
+before_deploy:
+- export RELEASE_REVISION=".$TRAVIS_BUILD_NUMBER"
+- export RELEASE_VERSION=$(mvn org.codehaus.mojo:exec-maven-plugin:1.3.1:exec -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive -B | sed -e "s/-SNAPSHOT/$RELEASE_REVISION/")
+- echo "Releasing [$RELEASE_VERSION]"
+- mvn versions:set -DnewVersion=$RELEASE_VERSION
+- mvn versions:commit
+- git config --local user.name "Lucas Theisen"
+- git config --local user.email "lucastheisen@pastdev.com"
+- git commit -am "updated version to $RELEASE_VERSION"
+- git tag -a -m "v$RELEASE_VERSION" "v$RELEASE_VERSION"
+- openssl aes-256-cbc -K $encrypted_8d05669b0f5a_key -iv $encrypted_8d05669b0f5a_iv -in .travis.codesigning.asc.enc -out .travis.codesigning.asc -d
+- gpg --fast-import .travis.codesigning.asc
+- travis_wait mvn deploy -P release -DskipTests=true --settings .travis.settings.xml -Drevision="$RELEASE_REVISION" -B
+
+deploy:
+  provider: releases
+  api_key:
+    secure: "AwXte78wm1wYJ2i8kUDGl7g+xy5s2xx19Xp4O7skRUJ1S272nEuAY8fpoeJZRScYeNRISjnfWeCZORtVlQaALjwBmJtI0QJSyRloIAYAD6Uvhr1/xgL67ICOkTikLJNWF1wnoGfoazQr+peFRb4z8YfgAsw3RcR0I70QiS6yZOrgqTBaRRupavA57Be2RALkU1Mp5z25dE2LPJMAvlFBiNO8LRO5zZ+8eibhLPiEybh9H5kuLOhgbHj9NpujCXaPmRy4T7EzMiTWAE0E1I27u8KbjW0sZijbBEWe0AWfLKy8Tv0RaZp0lmPa45MPemqvpjfUP0xqgSOzR6yIjvXcVBhoIOCTLLvsVPMdGNp+hkIk2WK83xnAcjMygDG5rSVMhXGt22IbcppCORyAIc3ncQo0oUgrB5bmSODVEWhBUO2D7OTFPOLjI7RUxSX0ITh0tV3CxUaRt9EjK4iUbgnAuHxMBJtL80yCzMFPeyom5md/8hXcMhf1JgGvRAMUyyeOKy+m4ppPPcLGCjlzQNNNB4sidyL11uM12TtUPfh3U8xjx0VOXJDvQ9czlo0zZuzoLdTAaZYc/PT3krJxve7NGmvyDmUpp/dZ8PlwOP0g6cm6qPEq3kcAjO/XsP0M6zZaaM7b3d9aDdrE8hZ1r8iLjS57jqsMaZSPsg54yRNJhNM="
+  on:
+    branch: master
+    tags: false
 
 # In order:
 # travis encrypt MAVEN_REPO_PASSWORD=\"REDACTED\"
