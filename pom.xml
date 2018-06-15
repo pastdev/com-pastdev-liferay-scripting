@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.pastdev.liferay</groupId>
   <artifactId>com.pastdev.liferay.scripting</artifactId>
-  <version>1.1${revision}</version>
+  <version>1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   
   <name>Liferay Scripting JSONWS</name>
