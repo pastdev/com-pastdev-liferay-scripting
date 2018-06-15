@@ -20,12 +20,13 @@ before_deploy:
 - git tag -a -m "v$RELEASE_VERSION" "v$RELEASE_VERSION"
 - openssl aes-256-cbc -K $encrypted_8d05669b0f5a_key -iv $encrypted_8d05669b0f5a_iv -in .travis.codesigning.asc.enc -out .travis.codesigning.asc -d
 - gpg --fast-import .travis.codesigning.asc
-- travis_wait mvn deploy -P release -DskipTests=true --settings .travis.settings.xml -Drevision="$RELEASE_REVISION" -B
+- travis_wait mvn deploy -P release -DskipTests=true --settings .travis.settings.xml -B
 
 deploy:
   provider: releases
   api_key:
     secure: "AwXte78wm1wYJ2i8kUDGl7g+xy5s2xx19Xp4O7skRUJ1S272nEuAY8fpoeJZRScYeNRISjnfWeCZORtVlQaALjwBmJtI0QJSyRloIAYAD6Uvhr1/xgL67ICOkTikLJNWF1wnoGfoazQr+peFRb4z8YfgAsw3RcR0I70QiS6yZOrgqTBaRRupavA57Be2RALkU1Mp5z25dE2LPJMAvlFBiNO8LRO5zZ+8eibhLPiEybh9H5kuLOhgbHj9NpujCXaPmRy4T7EzMiTWAE0E1I27u8KbjW0sZijbBEWe0AWfLKy8Tv0RaZp0lmPa45MPemqvpjfUP0xqgSOzR6yIjvXcVBhoIOCTLLvsVPMdGNp+hkIk2WK83xnAcjMygDG5rSVMhXGt22IbcppCORyAIc3ncQo0oUgrB5bmSODVEWhBUO2D7OTFPOLjI7RUxSX0ITh0tV3CxUaRt9EjK4iUbgnAuHxMBJtL80yCzMFPeyom5md/8hXcMhf1JgGvRAMUyyeOKy+m4ppPPcLGCjlzQNNNB4sidyL11uM12TtUPfh3U8xjx0VOXJDvQ9czlo0zZuzoLdTAaZYc/PT3krJxve7NGmvyDmUpp/dZ8PlwOP0g6cm6qPEq3kcAjO/XsP0M6zZaaM7b3d9aDdrE8hZ1r8iLjS57jqsMaZSPsg54yRNJhNM="
+  skip_cleanup: true
   on:
     branch: master
     tags: false
