@@ -49,7 +49,7 @@ release() {
     -out .travis.codesigning.asc \
     -d
   gpg --fast-import .travis.codesigning.asc
-  travis_wait mvn deploy -P release -DskipTests=true --settings .travis.settings.xml -B
+  mvn deploy -P release -DskipTests=true --settings .travis.settings.xml -B
 }
 
 [[ -z ${GITHUB_TOKEN} ]] && failout "missing GITHUB_TOKEN"

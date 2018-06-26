@@ -9,7 +9,7 @@ script:
 - mvn test -B
 
 after_success:
-- ./.travis.deploy
+- travis_wait ./.travis.deploy
 
 # In order:
 # travis encrypt MAVEN_REPO_PASSWORD=\"REDACTED\"
