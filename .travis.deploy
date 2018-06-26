@@ -1,0 +1,74 @@
+#!/bin/bash
+
+failout() {
+  msg=( "$@" )
+  tostr="${msg[*]}"
+  echo "FAILURE: $tostr"
+  exit -1
+}
+
+init() {
+  echo "Initializing git"
+  git config --local user.email "travisci@lucastheisen.com"
+  git config --local user.name "Travis CI"
+  git remote add release \
+    $(git remote get-url origin | sed -e "s'https://'https://$GITHUB_TOKEN@'") \
+    > /dev/null 2>&1
+}
+
+branch() {
+  echo "Branching $BRANCHNAME"
+  git push -d release "$BRANCHNAME"
+  git checkout -b "$BRANCHNAME"
+}
+
+update_version() {
+  echo "Releasing [$RELEASE_VERSION]"
+  mvn versions:set -DnewVersion="$RELEASE_VERSION"
+  mvn versions:commit
+}
+
+commit_release() {
+  echo "Commiting [$RELEASE_VERSION]"
+  git commit -am "Travis build: $TRAVIS_BUILD_NUMBER [skip ci]"
+}
+
+push() {
+  echo "Pushing tag [v$RELEASE_VERSION]"
+  git push release "$BRANCHNAME"
+  git tag -am "v$RELEASE_VERSION [skip ci]" "v$RELEASE_VERSION"
+  git push release "v$RELEASE_VERSION"
+  git push -d release "$BRANCHNAME"
+}
+
+release() {
+  openssl aes-256-cbc \
+    -K $encrypted_8d05669b0f5a_key \
+    -iv $encrypted_8d05669b0f5a_iv \
+    -in .travis.codesigning.asc.enc \
+    -out .travis.codesigning.asc \
+    -d
+  gpg --fast-import .travis.codesigning.asc
+  travis_wait mvn deploy -P release -DskipTests=true --settings .travis.settings.xml -B
+}
+
+[[ -z ${GITHUB_TOKEN} ]] && failout "missing GITHUB_TOKEN"
+[[ -z ${TRAVIS_BUILD_NUMBER} ]] && failout "missing TRAVIS_BUILD_NUMBER"
+
+BRANCHNAME=travisrelease
+RELEASE_REVISION=".$TRAVIS_BUILD_NUMBER"
+RELEASE_VERSION=$( \
+  mvn -q -B \
+    org.codehaus.mojo:exec-maven-plugin:1.3.1:exec \
+    -Dexec.executable='echo' \
+    -Dexec.args='${project.version}' \
+    --non-recursive \
+    | sed -e "s/-SNAPSHOT/$RELEASE_REVISION/")
+
+init
+branch
+update_version
+commit_release
+push
+release
+
