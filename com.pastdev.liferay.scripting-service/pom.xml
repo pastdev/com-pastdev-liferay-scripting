@@ -89,6 +89,7 @@
             <Private-Package>com.pastdev.liferay.scripting.service*</Private-Package>
             <Liferay-Require-SchemaVersion>1.0.0</Liferay-Require-SchemaVersion>
             <Liferay-Service>true</Liferay-Service>
+            <DynamicImport-Package>*</DynamicImport-Package>
             <_plugin.service>com.liferay.ant.bnd.service.ServiceAnalyzerPlugin</_plugin.service>
             <_plugin.spring>com.liferay.ant.bnd.spring.SpringDependencyAnalyzerPlugin</_plugin.spring>
           </instructions>
