@@ -1,15 +1,13 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
+ * This library is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU Lesser General Public License as published by the Free Software Foundation; either version
+ * 2.1 of the License, or (at your option) any later version.
  *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
  */
 
 package com.pastdev.liferay.scripting.service.impl;
@@ -23,15 +21,10 @@ import static com.pastdev.liferay.scripting.service.impl.ScriptingExecutorConsta
 
 import java.io.Serializable;
 import java.io.StringWriter;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 import com.liferay.petra.encryptor.EncryptorException;
@@ -44,21 +37,21 @@ import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.pastdev.liferay.scripting.service.SpawnedTaskStatus;
 import com.pastdev.liferay.scripting.service.base.ScriptingExecutorServiceBaseImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
  * The implementation of the scripting executor remote service.
  *
  * <p>
- * All custom service methods should be put in this class. Whenever methods are
- * added, rerun ServiceBuilder to copy their definitions into the
- * {@link com.pastdev.liferay.scripting.service.ScriptingExecutorService}
- * interface.
+ * All custom service methods should be put in this class. Whenever methods are added, rerun
+ * ServiceBuilder to copy their definitions into the
+ * {@link com.pastdev.liferay.scripting.service.ScriptingExecutorService} interface.
  *
  * <p>
- * This is a remote service. Methods of this service are expected to have
- * security checks based on the propagated JAAS credentials because this service
- * can be accessed remotely.
+ * This is a remote service. Methods of this service are expected to have security checks based on
+ * the propagated JAAS credentials because this service can be accessed remotely.
  * </p>
  *
  * @author Brian Wing Shun Chan
@@ -71,8 +64,8 @@ public class ScriptingExecutorServiceImpl
      * NOTE FOR DEVELOPERS:
      *
      * Never reference this class directly. Always use {@link
-     * com.pastdev.liferay.scripting.service.ScriptingExecutorServiceUtil} to
-     * access the scripting executor remote service.
+     * com.pastdev.liferay.scripting.service.ScriptingExecutorServiceUtil} to access the scripting
+     * executor remote service.
      */
     private static final Logger logger = LoggerFactory.getLogger(
             ScriptingExecutorServiceImpl.class );
@@ -80,7 +73,7 @@ public class ScriptingExecutorServiceImpl
     @Override
     public String eval( String language, String script )
             throws PortalException, SystemException {
-        return eval( (Map<String, Object>)null, language, script );
+        return eval( (Map<String, Object>) null, language, script );
     }
 
     @Override
@@ -90,7 +83,7 @@ public class ScriptingExecutorServiceImpl
         if ( input == null ) {
             input = new HashMap<String, Object>();
         }
-        if ( ! input.containsKey( KEY_BINDING_OUT ) ) {
+        if ( !input.containsKey( KEY_BINDING_OUT ) ) {
             input.put( KEY_BINDING_OUT, out );
         }
         eval( input, null, language, script );
@@ -123,9 +116,22 @@ public class ScriptingExecutorServiceImpl
             logger.debug( "expecting {}", outputNames );
         }
 
-        return ScriptingUtil.eval( null, input,
-                (outputNames == null ? null : new HashSet<String>( outputNames )),
-                language, script );
+        // Need to set thread context classloader so that groovy executor will pick it
+        // up, otherwise no non-core packages are found.
+        //
+        // https://github.com/pastdev/com-pastdev-liferay-scripting/issues/1
+        Thread currentThread = Thread.currentThread();
+        ClassLoader contextClassLoader = currentThread.getContextClassLoader();
+        try {
+            currentThread.setContextClassLoader( getClass().getClassLoader() );
+
+            return ScriptingUtil.eval( null, input,
+                    (outputNames == null ? null : new HashSet<String>( outputNames )),
+                    language, script );
+        }
+        finally {
+            currentThread.setContextClassLoader( contextClassLoader );
+        }
     }
 
     private Map<String, Object> inputWithMeta( Map<String, Object> input )
